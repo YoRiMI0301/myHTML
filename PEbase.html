@@ -1,0 +1,139 @@
+<!--
+	此示例下载自 https://echarts.apache.org/examples/zh/editor.html?c=parallel-simple&code=PYBwLglsB2AEC8sDeAoW7YBsCmBzb0AJgFzIC-ANGhmMMJpCKUpdeiAIYBOHmOmAQQAeEAM6kA2mwzoksQhAC2pAAwVY0DouykA5ICN0wGPagMr1d6xRGikAzOY5DSAVlisZMuQuWwAjOs3a9QHgEwBQbM1gLKx9vNXD7Um8ANhUXKjcMDyVSACY_LR1YXUAIlMAuJTCI7JUYxTjYABYs5Nc05HlM2FsNPL0AWQARQEmjQA55QC59U3NLeMdKuwc6ysbU5oyvWtyAgoAVAZGx8ImfKaqa60OU6XdWr0c1_N0-wDe9QcBw5zL9gE4j2e8Gs-aWz1ICRuei2jxe40iAHZPvFob8lpdSJDgQU-oBbh0AbKaASn9XpEVAA6a6xWa1eFpZakAAcKN0W0xOIhpAAtL5idkXNIALqLdCibBcCDYcSwKR_VB_GT-W6OACuigAMgBpDZmc7NMAATxAt04PD42EwqolGEwlmwAGVNThmGrjQB3CCEMAAC2ytrcTWNhA4YA4kndfwk1nxWWRPiyCXxCSJtW8jnxbze6msb0pWXxkNW7WsKm8GepPhUkPxtSTPlqkaL6gJCTLBJU1k5AYwTb-nrc4uNnXWulligAct0jV3Ndq9LrePxh8bTdALVb8p2uxgHU7XbAss30O2_t7ff7lzIg_jrFnvBWQwWc-mskTT5DKfjvKysrV6iGw2882n1N5rMHrALPMElZPNANbLsILSHd0i3btpTlAANAAJABhacJVHHVuEnA0ML-Wd5w1a1kDgmRVxdN1lxgtI9z9EUyIwY9HCBA5KzDLIsjzTNfzeRxH1qDpvEpSlIwSICG3zX9vkJHIN3xAsCUcN4oIlVSZBo0jlylPRISQtD8PVLVsL1KceQlQjLWIxdGPQCj103ajzN3H16IkCRahDISpnULigISBIz1rM9vDLSEOnTIkCSyTl1IwTSlwlHSCj0xQNn7c1DLSLDxxw_VDWc5pLIXG1DxXR1KI3ODNJkOjJA82TpLLU8hIfMsuOsUCVDLN4s3TAsmRrWL3QSuDkt0VKAC15SytwcoKCd8tmmRius0qytgeyqK7GqMDqkUGs639ajDU8Yk42Nf0pFQQrDRIXwzX8o2GttCtkMauhSuUAFEACllpoYzctMvC3rcVaSMS5ctqqpy4P29zPM439lPUWoVALV8eI3QK7tC39c2TR7YEGwkXuaMguXMxb-HWtIaYNYQxF6bAADMOBlBg6cwoGCgAN14GVsAB9ApXlYAAGMfSgSJdFEX0uDAEW9mgYAuA2CAJYAa255dRGdYA7VIMAuCF6qRukSmyAAbiAA
+	⚠ 请注意，该图表不是 Apache ECharts 官方示例，而是由用户代码生成的。请注意鉴别其内容。
+-->
+<!DOCTYPE html>
+<html lang="zh-CN" style="height: 100%">
+<head>
+  <meta charset="utf-8">
+</head>
+<body style="height: 100%; margin: 0">
+  <div id="container" style="height: 100%"></div>
+
+  
+  <script type="text/javascript" src="https://fastly.jsdelivr.net/npm/echarts@5.4.2/dist/echarts.min.js"></script>
+  <!-- Uncomment this line if you want to dataTool extension
+  <script type="text/javascript" src="https://fastly.jsdelivr.net/npm/echarts@5.4.2/dist/extension/dataTool.min.js"></script>
+  -->
+  <!-- Uncomment this line if you want to use gl extension
+  <script type="text/javascript" src="https://fastly.jsdelivr.net/npm/echarts-gl@2/dist/echarts-gl.min.js"></script>
+  -->
+  <!-- Uncomment this line if you want to echarts-stat extension
+  <script type="text/javascript" src="https://fastly.jsdelivr.net/npm/echarts-stat@latest/dist/ecStat.min.js"></script>
+  -->
+  <!-- Uncomment this line if you want to use map
+  <script type="text/javascript" src="https://fastly.jsdelivr.net/npm/echarts@4.9.0/map/js/china.js"></script>
+  <script type="text/javascript" src="https://fastly.jsdelivr.net/npm/echarts@4.9.0/map/js/world.js"></script>
+  -->
+  <!-- Uncomment these two lines if you want to use bmap extension
+  <script type="text/javascript" src="https://api.map.baidu.com/api?v=3.0&ak=YOUR_API_KEY"></script>
+  <script type="text/javascript" src="https://fastly.jsdelivr.net/npm/echarts@5.4.2/dist/extension/bmap.min.js"></script>
+  -->
+
+  <script type="text/javascript">
+    var dom = document.getElementById('container');
+    var myChart = echarts.init(dom, null, {
+      renderer: 'canvas',
+      useDirtyRect: false
+    });
+    var app = {};
+    
+    var option;
+
+    option = {
+    legend: {},
+    tooltip: {},
+    parallelAxis: [
+        { dim: 0, name: '面密度', min: 3, max: 5 },
+        { dim: 1, name: '透气', min: 110, max: 160 },
+        { dim: 2, name: '针刺', min: 200, max: 420 },
+        { dim: 3, name: 'MD拉伸强度', min: 1500, max: 4000 },
+        { dim: 4, name: 'TD拉伸强度', min: 1500, max: 3500 },
+        { dim: 5, name: 'MD延伸率', min: 90, max: 120 },
+        { dim: 6, name: 'TD延伸率', min: 70, max: 170 },
+        { dim: 7, name: 'MD热收缩', min: 0.5, max: 4 },
+        { dim: 8, name: 'TD热收缩', min: -1, max: 2 }
+    ],
+    series: [
+        {
+            name: '5umLKT',
+            type: 'parallel',
+            lineStyle: {
+                width: 2
+            },
+            data: [
+                [3.27, 126.65, 415.99, 3982.74, 3301.78, 107.49, 146.07, 0.69, 0.03]
+            ]
+        },
+        {
+            name: '5umNM',
+            type: 'parallel',
+            lineStyle: {
+                width: 2
+            },
+            data: [
+                [3.34, 146.28, 302.25, 3478.11, 2442.27, 91.82, 133.38, 1.61, 1.38]
+            ]
+        },
+        {
+            name: '5umXHC',
+            type: 'parallel',
+            lineStyle: {
+                width: 2
+            },
+            data: [
+                [3.56, 156.07, 221.74, 1958.43, 1886.68, 103.78, 112.52, 2.8, 0.59]
+            ]
+        },
+        {
+            name: '7umXHC',
+            type: 'parallel',
+            lineStyle: {
+                width: 2
+            },
+            data: [[4.23, 150, 218, 1664, 1694, 119, 73, 2.5, 0.2]]
+        },
+        {
+            name: '7umTNS',
+            type: 'parallel',
+            lineStyle: {
+                width: 2
+            },
+            data: [[4.52, 119, 343, 1789, 2131, 109, 94, 2.8, -0.6]]
+        },
+        {
+            name: '7umZL',
+            type: 'parallel',
+            lineStyle: {
+                width: 2
+            },
+            data: [[4.31, 147, 340, 2241, 1804, 117, 161, 2.7, 1.6]]
+        },
+        {
+            name: '7umEJ',
+            type: 'parallel',
+            lineStyle: {
+                width: 2
+            },
+            data: [[4.22, 159, 408, 2474, 2647, 119, 101, 3.7, -0.5]]
+        }
+    ],
+    parallel: {
+        parallelAxisDefault: {
+            type: 'value',
+            nameLocation: 'start',
+            minorTick: {
+                show: true
+            }
+        }
+    }
+};
+
+    if (option && typeof option === 'object') {
+      myChart.setOption(option);
+    }
+
+    window.addEventListener('resize', myChart.resize);
+  </script>
+</body>
+</html>
